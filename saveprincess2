@@ -13,7 +13,7 @@ def findPrincCoord(n,grid):
         
         for c in r:
             if c == "p":
-                res=(x,y)
+                res=(y,x)
                 stop=True
                 break
             else:
