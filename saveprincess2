@@ -1,0 +1,42 @@
+#!/bin/python
+
+def findPrincCoord(n,grid):
+    x=0
+    res=None
+    stop=False
+    
+    for r in grid:
+        y=0
+        
+        if stop:
+            break
+        
+        for c in r:
+            if c == "p":
+                res=(x,y)
+                stop=True
+                break
+            else:
+                y+=1
+        x+=1
+        
+    return res 
+
+def nextMove(n,r,c,grid):
+    x,y=findPrincCoord(n,grid)
+    if c<x:
+        return "RIGHT"
+    elif c>x:
+        return "LEFT"
+    elif r<y: 
+        return "DOWN"
+    else:
+        return "UP"
+    
+n = input()
+r,c = [int(i) for i in raw_input().strip().split()]
+grid = []
+for i in xrange(0, n):
+    grid.append(raw_input())
+
+print nextMove(n,r,c,grid)
