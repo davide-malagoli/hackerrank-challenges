@@ -1,0 +1,87 @@
+#!/bin/python
+
+LEFT_UPPER_CORNER=0
+RIGHT_UPPER_CORNER=1
+LEFT_BOTTOM_CORNER=2
+RIGHT_BOTTOM_CORNER=3
+
+
+
+def pathToLeftUpper(x,y,n):
+    pathTo(x,y,"LEFT","UP")
+    
+def pathToRightUpper(x,y,n):
+    pathTo((n-1)-x,y,"RIGHT","UP")
+
+def pathToLeftBottom(x,y,n):
+    pathTo(x,(n-1)-y,"LEFT","DOWN")
+    
+def pathToRightBottom(x,y,n):
+    pathTo((n-1)-x,(n-1)-y,"RIGHT","DOWN")
+    
+def pathTo(x,y,s1,s2):
+    for i in xrange(x):
+        print s1
+    for j in xrange(y):
+        print s2
+        
+        
+func={
+    LEFT_UPPER_CORNER:pathToLeftUpper,
+    RIGHT_UPPER_CORNER:pathToRightUpper,
+    LEFT_BOTTOM_CORNER:pathToLeftBottom,
+    RIGHT_BOTTOM_CORNER:pathToRightBottom
+}
+
+def findBotCoord(n,grid):
+    x=0
+    res=None
+    stop=False
+    
+    for r in grid:
+        y=0
+        
+        if stop:
+            break
+        
+        for c in r:
+            if c == "m":
+                res=(x,y)
+                stop=True
+                break
+            else:
+                y+=1
+        x+=1
+        
+    return res 
+        
+        
+def findPrincCoord(n,grid):
+    if grid[0][0] == "p":
+        return (0,0),LEFT_UPPER_CORNER
+    elif grid[0][n-1] == "p":
+        return (0,n-1),RIGHT_UPPER_CORNER
+    elif grid[n-1][0] == "p":
+        return (0,n-1),LEFT_BOTTOM_CORNER
+    else:
+        return (n-1,n-1),RIGHT_BOTTOM_CORNER
+
+def processGrid(n,grid):
+    b=findBotCoord(n,grid)
+    p,c=findPrincCoord(n,grid)
+    
+    return b,p,c
+
+def displayPathtoPrincess(n,grid):
+    b,p,c=processGrid(n,grid)
+    func[c](b[0],b[1],n) 
+    #print b,p,c
+    
+#print all the moves here
+m = input()
+
+grid = []
+for i in xrange(0, m):
+    grid.append(raw_input().strip())
+
+displayPathtoPrincess(m,grid)
