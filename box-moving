@@ -1,0 +1,28 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+
+n=input()
+x=[int(i) for i in raw_input().split()]
+y=[int(i) for i in raw_input().split()]
+
+x.sort()
+y.sort()
+
+sum1=0
+sum2=0
+
+for i in xrange(n):
+    sum1+=x[i]
+    sum2+=y[i]
+    
+if sum1 != sum2:
+    print -1
+else:
+    c=0
+    for i in xrange(n):
+        c+=abs(x[i]-y[i])
+        
+    if (c%2) != 0:
+        print -1
+        
+    else:
+        print c/2
