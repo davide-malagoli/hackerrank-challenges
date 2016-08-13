@@ -1,0 +1,54 @@
+#!/bin/python
+
+import sys
+
+
+n = int(raw_input().strip())
+A = map(int,raw_input().strip().split(' '))
+
+num={}
+
+Asort=sorted(A)
+c=Asort[0]
+
+#print Asort,c
+for j in xrange(1,len(Asort)):
+    if Asort[j] == c:
+        num[c]=[]
+    else:
+        c=Asort[j]
+        
+#print num
+
+for i in xrange(n):
+    #print num
+    #if A[i] not in num.keys():
+        #num[A[i]]=[i]
+    #else:
+    if A[i] in num.keys():
+        num[A[i]].append(i)
+        
+#print num        
+
+#for k in num.keys():
+#    if len(num[k])<2:
+#        del num[k]
+        
+#print num
+
+max_dist=(-1)
+for el in num.keys():
+    
+    el_max_dist=(-1)
+    for q in xrange(len(num[el])-1):
+        if el_max_dist == (-1):
+            el_max_dist = (num[el][q+1]-num[el][q])
+        elif (num[el][q+1]-num[el][q]) < el_max_dist:
+            el_max_dist = (num[el][q+1]-num[el][q])
+    
+    if max_dist == (-1):
+        max_dist = el_max_dist
+    elif el_max_dist < max_dist:
+        max_dist = el_max_dist
+        
+print max_dist
