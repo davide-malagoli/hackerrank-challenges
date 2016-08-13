@@ -1,0 +1,17 @@
+#!/bin/python
+
+import sys
+
+
+S = raw_input().strip()
+
+c=0
+for i in xrange(len(S)/3):
+    if S[3*i] != "S":
+        c+=1
+    if S[3*i+1] != "O":
+        c+=1
+    if S[3*i+2] != "S":
+        c+=1
+        
+print c
