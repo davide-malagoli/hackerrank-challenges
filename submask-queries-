@@ -1,0 +1,57 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+u={}
+subsets={}
+sets=[]
+
+def calculate_subsets(sset):
+	#print sset
+	if sset not in subsets.keys():
+		subsets[sset]=[]
+		for s in sets:
+			
+			#print s,sset & s, s &sset
+			if sset & s == s:
+				subsets[sset].append(s)
+
+
+n,m = raw_input().split()
+
+n=int(n)
+m=int(m)
+
+
+
+
+for i in xrange(2**n):
+    u[i]=0
+    sets.append(i)
+
+
+
+for i in xrange(m):
+    com= raw_input().split()
+    
+    if com[0]=="1":
+        x=int(com[1])
+        
+        
+        sset=int(com[2],2)
+        calculate_subsets(sset)
+        
+     	#print subsets[sset]
+        for i in subsets[sset]:
+        	u[i]=x
+        	
+        #print u
+        
+    elif com[0]=="2":
+        x=int(com[1])
+        
+        sset=int(com[2],2)
+        calculate_subsets(sset)
+        for i in subsets[sset]:
+                u[i]=x ^ u[i]
+            
+        #print u
+    else:
+        print u[int(com[1],2)]
