@@ -1,0 +1,29 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+
+n = input()
+a = [int(i) for i in raw_input().split()]
+
+minus1={}
+
+maxn=0
+nice=True
+for i in xrange(n):
+    if a[i]==(-1):
+        minus1[i]=((i+1)-maxn)
+    elif a[i] > maxn:
+        maxn=a[i]
+    elif a[i] < maxn:
+        nice=False
+        
+if not nice:
+    print 0
+
+elif len(minus1)>0:
+    sequences=1
+    for i in minus1:
+        sequences= (sequences * minus1[i]) % (10 ** 9 + 7)
+
+    print sequences
+    
+else:
+    print 1
