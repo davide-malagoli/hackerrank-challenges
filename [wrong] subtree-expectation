@@ -1,0 +1,118 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+q=input()
+
+def process_edges(edges,w):
+    tree={}
+    
+    for edge in edges:
+        tree[edge[1]]={edge[0]:None}
+        
+    stop=False
+    while not stop:
+        stop=True
+        for key in tree.keys():
+            for v in tree[key].keys():
+                if v not in tree.keys(): #edge with no children
+                    tree[key][v]=a[v]
+                    
+                elif tree[key][v] == None: #edge with children not already computed
+                    ok=True
+                    cost=0
+                    for v2 in tree[v]:
+                        if tree[v][v2] == None: #if we are scanning a children with an uncomputed child, stop
+                            ok=False
+                            break
+                        else:
+                            cost+=tree[v][v2]
+                    
+                    if ok: #if all children are computed, assign cost
+                        tree[key][v]=cost+a[v]
+                    else:
+                        stop=False #if all the children are computed, this statement is not executed
+        
+    return tree
+        
+
+for q1 in xrange(q):
+    n=input() #number of vertexes
+    w=[float(e) for e in raw_input().split()] #weight of vertexes (they are numbered starting from 1)
+    a=[float(e) for e in raw_input().split()] #weight of the sum of the vertexes (they are numbered starting from 0)
+    edges=[] #edges
+    for n1 in xrange(n-1):
+        u,v = raw_input().split()
+        u,v = int(u), int(v)
+        edges.append((u,v))
+        
+    tree=process_edges(edges,w)
+    print tree
+    
+    x=0.0 #float
+    divider=0.0 #float
+    #the expectation is the sum from:
+    #-the weight of the vertexes
+    #-the weight of the the edges
+    #-the weight of the root
+    #-divided by the number of the elements
+    #root_index=0 
+    #sum all the vertexes
+    for i in xrange(n):
+        x+=w[i]
+        # root_index+=(i+1) # in the array a the elements starts at 1
+    
+    #print x
+    #we counted all the elements of w
+    divider+=len(w)
+    
+    #sum the root
+    #the root weights as described in the array a
+    #the root index is the sum of the indexes, plus 1
+    #x+=a[root_index]
+    #divider+=1.0
+    
+    print x
+    #sum the edges
+    #for el in edges:
+    #    divider+=1.0
+    #    x+=a[el[0]+el[1]]
+    
+    stop=False
+    while not stop:
+        stop=True
+        for key in tree.keys():
+            print tree, x
+            if "computed" not in tree[key].keys(): #leave beind already computed subtrees
+                stop=False #if all nodes are computed, we neve execute this statement
+                cost=0
+                ok=True
+                for key2 in tree[key].keys(): #compute child
+                    
+                    if key2 not in tree.keys(): #single node
+                        cost+=tree[key][key2]
+                    elif "computed" not in tree[key2].keys(): #compute child
+                        
+                        childs=0
+                        for v in tree[key2]:
+                            if v not in tree.keys(): #single node
+                                childs+=1
+                                cost+=tree[key2][v]
+                            elif "computed" in tree[v].keys():
+                                childs+=1
+                                cost+=tree[key2][v]
+                                
+                        if childs == len(tree[key2].keys()):
+                            tree[key2]["computed"]=True
+                            
+                        else:
+                            ok=False #if all childs are computed, we never excute this statement
+                   
+                    print cost   
+                if ok:
+                    tree[key]["computed"]=True
+                    x+=cost+a[key]
+                    divider+=1.0
+                               
+    
+    print x
+    print divider
+    #divide by the sum of the elements
+    print x/divider
