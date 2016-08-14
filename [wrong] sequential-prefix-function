@@ -10,7 +10,16 @@ last_results=[0]
 last_arrays=[{'s0':[],'sn':[]}]
 
 def add(x):
+    
+    global s
+    global s0km1
+    global snmknm1
+    global k
+    global last_results
+    global last_arrays
+    
     s.append(x)
+    
     n=len(s)
     
     if n == 1:
@@ -18,7 +27,8 @@ def add(x):
         snmknm1=[x]
         k=0
     else:
-        snmknm1.append(x)
+        
+        #snmknm1.append(x)
         if s[k+1] == x: # we can expand both the sequences
             s0km1.append(x)
             snmknm1.append(x)
@@ -56,12 +66,26 @@ def add(x):
     return k
 
 def delete_last():
+    
+    global s
+    global s0km1
+    global snmknm1
+    global k
+    global last_results
+    global last_arrays
+    
     s.pop()
-    k=last_result.pop()
+    last_results.pop()
+    last_arrays.pop()
+    
+    k=last_results.pop()
     x=last_arrays.pop()
     
     s0km1=x['s0']
-    snmknm1=x['s1']
+    snmknm1=x['sn']
+    
+    last_results.append(k)
+    last_arrays.append({'s0':s0km1,'sn':snmknm1})
         
     return k
 
@@ -70,6 +94,8 @@ for i in xrange(q):
     com = raw_input().split()
     if com[0] == "-":
         print delete_last()
+        #print s0km1,snmknm1
     else:
+        #pass
         print add(com[1])
-    
+        #print s0km1,snmknm1
