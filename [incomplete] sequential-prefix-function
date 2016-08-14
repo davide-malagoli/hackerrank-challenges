@@ -6,52 +6,65 @@ s0km1=[]
 snmknm1=[]
 k=0
 
+last_results=[0]
+last_arrays=[{'s0':[],'sn':[]}]
+
 def add(x):
     s.append(x)
-    if len(s) == 1:
+    n=len(s)
+    
+    if n == 1:
         s0km1=[x]
         snmknm1=[x]
         k=0
     else:
         snmknm1.append(x)
-        if (len(s)- k) > k: #there is space between the two sequences
-            if s[k] == snmknm1[0]: #if s_k+1 == s_n-k_n-1 the expand the sequence
-                k+=1
-                s0km1.append(s[k])
-            else: #there is a difference in the sequence, k=0
-                k=0
-                snmknm1.pop(0)
-        else: #there is no space between sequences
-            if snmknm1[0] == x: #if s_k+1 == s_n-k_n-1 the expand the sequence
-                k+=1
-                s0km1.append(snmknm1[0])
-                snmknm1.pop(0)
-            else: #there is a difference in the sequence, k=0
-                k=0
-                snmknm1.pop(0)
-                
+        if s[k+1] == x: # we can expand both the sequences
+            s0km1.append(x)
+            snmknm1.append(x)
+            k+=1
+        else: #we must constract the sequences
+            ok=False
             
+            while not ok or k==0:
+                
+                if (s[k] == s[n-1]) and (s[0] == s[n-k]):
+                    ok=True
+                    s0km1=s[0:k]
+                    snmknm1=s[n-k:n]
+                else:
+                    k-=1
+                
+        #if (len(s)- k) > k: #there is space between the two sequences
+        #    if s[k] == snmknm1[0]: #if s_k+1 == s_n-k_n-1 the expand the sequence
+        #        k+=1
+        #        s0km1.append(s[k])
+        #    else: #there is a difference in the sequence, k=0
+        #        k=0
+        #        snmknm1.pop(0)
+        #else: #there is no space between sequences
+        #    if snmknm1[0] == x: #if s_k+1 == s_n-k_n-1 the expand the sequence
+        #        k+=1
+        #        s0km1.append(snmknm1[0])
+        #        snmknm1.pop(0)
+        #    else: #there is a difference in the sequence, k=0
+        #        k=0
+        #        snmknm1.pop(0)
+                
+    last_results.append(k)
+    last_arrays.append({'s0':s0km1,'sn':snmknm1})
     return k
 
 def delete_last():
     s.pop()
-    if len(s) == 1 or len(s) == 0:
-        s0km1=[]
-        snmknm1=[]
-        k=0
+    k=last_result.pop()
+    x=last_arrays.pop()
+    
+    s0km1=x['s0']
+    snmknm1=x['s1']
         
-    elif len(s) == 2:
-        s0km1=[x]
-        snmknm1=[x]
-        k=0
-        
-    else:
-        snmknm1.pop()
-        
-        
-        
-def delete_last():
-    return ""
+    return k
+
     
 for i in xrange(q):
     com = raw_input().split()
